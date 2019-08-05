@@ -1460,7 +1460,7 @@ int Mesh::subdivideMesh(StaticVector<int>& trisCamsId, float maxEdgeLength)
         if(trianglesToSubdivide.find(triangleId) != trianglesToSubdivide.end())
         {
             // sort edges in ascending & adjacent order in the triangle coordinate system
-            std::sort(trianglesToSubdivide[triangleId].begin(), trianglesToSubdivide[triangleId].end(), [](edge& a, edge& b){
+            std::sort(trianglesToSubdivide[triangleId].begin(), trianglesToSubdivide[triangleId].end(), [](edge& a, edge& b) -> bool {
                 return (a.localIdB == b.localIdA) ;
             });
             subdivideTriangle(triangleId, trianglesToSubdivide.at(triangleId), new_tris, new_trisUvIds, new_uvCoords, new_trisMtlIds);
