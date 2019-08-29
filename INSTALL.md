@@ -32,7 +32,7 @@ AliceVision also depends on:
 * OpenMesh (internal)
 * zlib
 
-Other optional libraries can enable specific features (check "CMake Options" for enabling them):
+Other optional libraries can enable specific features (check [CMake Options](https://github.com/tjdahlke/AliceVision/blob/tjdahlke-install-doc/INSTALL.md#cmake-options) for enabling them):
 
 * OpenMP (enable multi-threading)
 * Mosek 5 (linear programming)
