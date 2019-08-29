@@ -60,11 +60,14 @@ cmake -DCMAKE_INSTALL_PREFIX=$PWD/../install ../AliceVision
 make -j10
 ```
 
-### Setup the required external library.
+### Setup the required external libraries:
 
 * `sudo apt-get install libpng-dev libjpeg-dev libtiff-dev libxxf86vm1 libxxf86vm-dev libxi-dev libxrandr-dev`
 
-* If you want see the view graph svg logs
+You may also need to install these dependencies if they aren't present on your system:
+* `sudo apt-get install libblas-dev liblapack-dev openexr libboost-all-dev gfortran cmake autoconf nasm`
+
+* If you want to see the view graph svg logs
   `sudo apt-get install graphviz`
  
 ### Clone and configure the project:
@@ -74,11 +77,10 @@ make -j10
  mkdir build && cd build
  cmake -DCMAKE_BUILD_TYPE=Release . ../AliceVision
 ```
-If you want to use the built in dependencies:
+If you want to use the built in dependencies (and avoid installing separately on your own):
 ```bash
 cmake -DALICEVISION_BUILD_DEPENDENCIES=ON -DCMAKE_INSTALL_PREFIX=$PWD/../install ../AliceVision
 ```
-
 If you want enable unit tests and examples to the build:
 ```bash
 cmake -DCMAKE_BUILD_TYPE=Release -DALICEVISION_BUILD_TESTS=ON -DALICEVISION_BUILD_EXAMPLES=ON ../AliceVision
@@ -120,7 +122,7 @@ make test
 ```
 
 
-### Windows compilation (recommended using vcpkg)
+Windows compilation (recommended using vcpkg)
 -------------------------------------------------------------
 
 [Vcpkg](https://github.com/Microsoft/vcpkg) is a tool that helps in acquiring, building, and managing C/C++ libraries.
@@ -182,6 +184,39 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake -D
 
 # Windows: this generates a "aliceVision.sln" solution inside the build folder
 ```
+
+Windows compilation
+-------------------
+
+* Checkout the project
+  `git clone --recursive https://github.com/alicevision/aliceVision.git`
+* Open cmake-gui
+  * Fill the source path with the AliceVision path.
+  * Fill the build path with a new directory
+  * Select your Visual Studio IDE and click configure and then generate
+* Open the .sln solution created in your build directory.
+  * Change the target to Release.
+  * Compile the libraries and binaries samples.
+
+
+
+Mac OSX compilation
+-------------------
+```bash
+git clone --recursive https://github.com/alicevision/AliceVision.git
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release -G "Xcode" ../AliceVision
+```
+If you want enable unit tests and examples to the build:
+```bash
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DALICEVISION_BUILD_TESTS=ON \
+      -DALICEVISION_BUILD_EXAMPLES=ON \
+      -G "Xcode" \
+      ../AliceVision
+xcodebuild -configuration Release
+```
+
 
 Building the project with embedded dependencies
 -----------------------------------------------
@@ -318,40 +353,6 @@ CMake Options
 
 
 
-
-Windows compilation
--------------------
-
-* Checkout the project
-  `git clone --recursive https://github.com/alicevision/aliceVision.git`
-* Open cmake-gui
-  * Fill the source path with the AliceVision path.
-  * Fill the build path with a new directory
-  * Select your Visual Studio IDE and click configure and then generate
-* Open the .sln solution created in your build directory.
-  * Change the target to Release.
-  * Compile the libraries and binaries samples.
-
--------------------
-
-
-Mac OSX compilation
--------------------
-```bash
-git clone --recursive https://github.com/alicevision/AliceVision.git
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release -G "Xcode" ../AliceVision
-```
-If you want enable unit tests and examples to the build:
-```bash
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DALICEVISION_BUILD_TESTS=ON \
-      -DALICEVISION_BUILD_EXAMPLES=ON \
-      -G "Xcode" \
-      ../AliceVision
-xcodebuild -configuration Release
-```
---------------------
 
 
 Using AliceVision as a third party library dependency in cmake
