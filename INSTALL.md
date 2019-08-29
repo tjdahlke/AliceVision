@@ -120,7 +120,9 @@ Launch unity tests (if asked at cmake step)
 ```bash
 make test
 ```
+### Known issues
 
+If you get compilation errors related to `libblas`, you may be able to fix it [using these instructions](https://github.com/alicevision/AliceVision/issues/589#issuecomment-456858449).
 
 Windows compilation (recommended using vcpkg)
 -------------------------------------------------------------
