@@ -1,31 +1,20 @@
 AliceVision
 ===========
 
-Build instructions
-------------------
+Requirements & Dependencies
+---------------------------
 
 Required tools:
 * CMake >= 3.4
 * Git
 * C/C++ compiler (gcc or visual studio or clang) with C++11 support.
 
-### Compile the project
-
-Getting the sources:
-
-```bash
-git clone https://github.com/alicevision/AliceVision.git --recursive
-```
-
-As AliceVision use some C++11 features you must have a c++11 ready compiler:
+As AliceVision uses some C++11 features, you must have a c++11 ready compiler:
 - Visual studio >= 2015
 - GCC >= 4.7
 - Clang >= 3.3
 
-Dependencies
-------------
-
-AliceVision depends on:
+AliceVision also depends on:
 
 * Boost >= 1.60.0
 * Eigen >= 3.3.4
@@ -56,8 +45,84 @@ Other optional libraries can enable specific features (check "CMake Options" for
 * Cuda >= 7.0 (feature extraction and depth map computation)
 * OpenGV (rig calibration and localization)
 
-Building the project using vcpkg (recommended on Windows)
---------------------------------
+
+
+
+Linux compilation (Debian)
+---------------------------
+
+### TLDR;
+```bash
+sudo apt-get install libpng-dev libjpeg-dev libtiff-dev libxxf86vm1 libxxf86vm-dev libxi-dev libxrandr-dev
+git clone https://github.com/alicevision/AliceVision.git --recursive
+mkdir build && cd build
+cmake -DCMAKE_INSTALL_PREFIX=$PWD/../install ../AliceVision
+make -j10
+```
+
+### Setup the required external library.
+
+* `sudo apt-get install libpng-dev libjpeg-dev libtiff-dev libxxf86vm1 libxxf86vm-dev libxi-dev libxrandr-dev`
+
+* If you want see the view graph svg logs
+  `sudo apt-get install graphviz`
+ 
+### Clone and configure the project:
+
+```bash
+ git clone --recursive https://github.com/alicevision/AliceVision.git
+ mkdir build && cd build
+ cmake -DCMAKE_BUILD_TYPE=Release . ../AliceVision
+```
+If you want to use the built in dependencies:
+```bash
+cmake -DALICEVISION_BUILD_DEPENDENCIES=ON -DCMAKE_INSTALL_PREFIX=$PWD/../install ../AliceVision
+```
+
+If you want enable unit tests and examples to the build:
+```bash
+cmake -DCMAKE_BUILD_TYPE=Release -DALICEVISION_BUILD_TESTS=ON -DALICEVISION_BUILD_EXAMPLES=ON ../AliceVision
+```
+
+In order to use the MOSEK 6 back-end for the linear programming aliceVision module:
+
+- Check that you have an up-to-date MOSEK licence, else aliceVision MOSEK unit test will fail.
+
+- Then:
+
+  ```bash
+  cmake -DCMAKE_BUILD_TYPE=Release \
+        -DMOSEK_SEARCH_HEADER="~/Documents/Lib/mosek/6/tools/platform/linux64x86/h" \
+        -DMOSEK_SEARCH_LIB="~/Documents/Lib/mosek/6/tools/platform/linux64x86/bin" \
+        ../AliceVision
+  ```
+
+If you want to have an IDE openable project with codeblocks:
+
+```bash
+cmake -G "CodeBlocks - Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ../AliceVision
+```
+
+### Compile the project
+
+```bash
+make
+```
+
+For a multi-core compilation (Replace NBcore with the number of threads). This will likely go much faster.
+```bash
+make -j NBcore
+```
+
+Launch unity tests (if asked at cmake step)
+```bash
+make test
+```
+
+
+### Windows compilation (recommended using vcpkg)
+-------------------------------------------------------------
+
 [Vcpkg](https://github.com/Microsoft/vcpkg) is a tool that helps in acquiring, building, and managing C/C++ libraries.
 AliceVision's required dependencies can be built with it. Follow the [installation guide](https://github.com/Microsoft/vcpkg/blob/master/README.md#quick-start) to setup vcpkg.
 
@@ -252,63 +317,6 @@ CMake Options
   Enable code coverage generation (gcc only)
 
 
-Linux compilation
------------------
-
-### Setup the required external library.
-
-* `sudo apt-get install libpng-dev libjpeg-dev libtiff-dev libxxf86vm1 libxxf86vm-dev libxi-dev libxrandr-dev`
-
-* If you want see the view graph svg logs
-  `sudo apt-get install graphviz`
-
-### Clone and configure the project:
-
-```bash
- git clone --recursive https://github.com/alicevision/AliceVision.git
- mkdir build && cd build
- cmake -DCMAKE_BUILD_TYPE=Release . ../AliceVision
-```
-
-If you want enable unit tests and examples to the build:
-```bash
-cmake -DCMAKE_BUILD_TYPE=Release -DALICEVISION_BUILD_TESTS=ON -DALICEVISION_BUILD_EXAMPLES=ON ../AliceVision
-```
-
-In order to use the MOSEK 6 back-end for the linear programming aliceVision module:
-
-- Check that you have an up-to-date MOSEK licence, else aliceVision MOSEK unit test will fail.
-
-- Then:
-
-  ```bash
-  cmake -DCMAKE_BUILD_TYPE=Release \
-        -DMOSEK_SEARCH_HEADER="~/Documents/Lib/mosek/6/tools/platform/linux64x86/h" \
-        -DMOSEK_SEARCH_LIB="~/Documents/Lib/mosek/6/tools/platform/linux64x86/bin" \
-        ../AliceVision
-  ```
-
-If you want to have an IDE openable project with codeblocks:
-
-```bash
-cmake -G "CodeBlocks - Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ../AliceVision
-```
-
-### Compile the project
-
-```bash
-make
-```
-
-For a multi-core compilation (Replace NBcore with the number of threads)
-```bash
-make -j NBcore
-```
-
-Launch unity tests (if asked at cmake step)
-```bash
-make test
-```
 
 
 Windows compilation
